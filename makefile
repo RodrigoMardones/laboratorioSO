@@ -1,5 +1,6 @@
 DIRO = ./build
 DIRI = ./src
+FILE = ./src/uvplaneco1.csv
 CC= gcc
 CFLAGS = -g
 
@@ -23,4 +24,4 @@ main:
 	mkdir -p build
 	gcc src/lab1.c -o build/lab1.out
 run-main:
-	./build/lab1.out
+	./build/lab1.out -i $(FILE)

@@ -13,14 +13,12 @@ int main(int argc, char* argv[]){
     printf("%s \n", discs);
     printf("%s \n", deep);
     printf("%s \n", flag);
-
-/*     
+    
     int filas;
     int cols = 6;
     char*** matrix = NULL;
-    matrix = readFile("./src/uvplaneco1.csv", &filas, cols);
+    matrix = readFile(input, &filas, cols);
     setDistance(matrix, filas);
-    // printMatrix(matrix, filas,6);
+    printMatrix(matrix, 10,6);
     return 0; 
-*/
 }
