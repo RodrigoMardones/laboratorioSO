@@ -1,7 +1,7 @@
 DIRO = ./build
 DIRI = ./src
 CC= gcc
-CFLAGS = -g -msse3 
+CFLAGS = -g
 
 all: borrar crear
 
@@ -12,3 +12,8 @@ crear:
 
 borrar:
 	rm -rf $(DIRO)/*
+
+run-lab1:
+	./build/lab1
+run-vis:
+	./build/vis

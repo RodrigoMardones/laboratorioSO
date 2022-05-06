@@ -11,7 +11,7 @@ FILE* vis_csv;
 	
 void LeerArchivo(){
 	//Obtener número de filas
-    	vis_csv= fopen("./src/uvplaneco1.csv","r");
+    vis_csv= fopen("./src/uvplaneco1.csv","r");
 	if(vis_csv){	
 		while (fgets(buff, 255, (FILE*)vis_csv) != NULL){
 			nfilas = nfilas + 1;

@@ -5,8 +5,14 @@
 #include <math.h>
 #include "leerArchivo.h"
 
-extern void vertabla();
 
+void vertabla(){
+	for(i=0;i<2;i++){
+		for(j=0;j<ncolumnas;j++){
+			printf("%s\n",matriz[i][j]);	
+		}
+	}
+}
 int main(){
 
 	LeerArchivo();

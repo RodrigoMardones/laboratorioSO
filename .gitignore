@@ -1,1 +1,5 @@
 *.out
+lab1
+vis
+build/*
+build
