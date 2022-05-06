@@ -4,8 +4,6 @@
 #include <ctype.h>
 #include <math.h>
 
-char* filename = "./src/uvplaneco1.csv";
-
 char*** createMatrix(int nfilas, int nCols){
     char*** matriz = (char***) malloc(sizeof(char**)*nfilas);
 	for(int i=0;i<nfilas;i++){	
@@ -19,64 +17,65 @@ char*** createMatrix(int nfilas, int nCols){
 
 void storeData(char*** matrix, char* filename){
 	FILE* vis_csv = fopen(filename,"r");
-    int i = 0;
-    int numcolumna = 0;
+	int charPerLine = 0;
+	int numcolumna = 0;
     int numfila = 0;
     int inum = 0;
+	// para guardar valor leido
     char buff[255];
+	// para traspasar valor
     char numero[255];
     if(vis_csv){
-		int count = 0;	
 		while (fgets(buff, 255, (FILE*)vis_csv) != NULL){
+			charPerLine = 0;
 			numcolumna = 0;
-            // por qué rompe?
-			if(count == 2){ break;}	
-			i = 0;
 			inum = 0;
-		 	while(buff[i] != '\0'){ 
-        			if(buff[i] != ',' && buff[i] != '\n'){		
-        				numero[inum] = buff[i];
-        				inum++;        			
-  				}else if(buff[i] == ','){
+
+		 	while(buff[charPerLine] != '\0'){ 
+				if(buff[charPerLine] != ',' && buff[charPerLine] != '\n'){		
+					numero[inum] = buff[charPerLine];
+					inum++;        			
+  				}else if(buff[charPerLine] == ','){
   					numero[inum] = '\0';
+					// printf("%s en (%d,%d) ", numero,numfila, numcolumna);
   					strcpy(matrix[numfila][numcolumna],numero);
   					numcolumna++;
   					inum = 0;
-  				}else if(buff[i] == '\n'){
+  				}else if(buff[charPerLine] == '\n'){
   					numero[inum] = '\0';
+					// printf("valor final: %s \n", numero);
   					strcpy(matrix[numfila][numcolumna],numero);
   					inum = 0;
 				}else{
-				
 					break;
 				}				
-  				i++;
-			}	
+  				charPerLine++;
+			}
 			numfila++;		
-			count++;	
 		}			
 	}
 }
 
-
-char*** readFile(char* filename) {
+char*** readFile(char* filename, int* nfilas, int ncols){
     FILE* vis_csv = fopen(filename,"r");
-    int nfilas = 0;
-    int ncolumnas = 6;
+    *nfilas = 0;
     char buff[255];
     if(vis_csv){
         while (fgets(buff, 255, (FILE*)vis_csv) != NULL){
-			nfilas = nfilas + 1;
+			// printf("%s \n", buff);
+			*nfilas = *nfilas + 1;
 		}
 		fclose(vis_csv);
     }
-    char*** matrix = createMatrix(nfilas, ncolumnas);
+	char*** matrix;
+    matrix = createMatrix(*nfilas, ncols);
     storeData(matrix, filename);
-    return matrix;
+	return matrix;
 }
 
-void EstablecerDisco(char*** matrix){
-	for(int i=0;i<2;i++){
+void setDistance(char*** matrix, int filas){
+    // dos solo de muestra, entre 0 y 2 toma un rango ese rango ese el disco
+	for(int i=0; i<filas;i++){
 		double u = strtod(matrix[i][0], (char **)NULL);
 		double v = strtod(matrix[i][1], (char **)NULL);
 		double radio = (u*u) + (v*v);
@@ -90,7 +89,8 @@ void EstablecerDisco(char*** matrix){
 void printMatrix(char*** matrix,int nfilas,int ncols){
     for(int i=0; i<nfilas;i++){
         for(int j=0;j<ncols;j++){
-            printf("%s\n",matrix[i][j]);
+			printf("(%d, %d) ",i,j);
+			printf("%s \n", matrix[i][j]);
         }
     }
 }

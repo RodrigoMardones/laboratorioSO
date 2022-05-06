@@ -2,6 +2,8 @@
     "files.associations": {
         ".env": "env",
         "math.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "string.h": "c",
+        "leerarchivo.h": "c"
     }
 }

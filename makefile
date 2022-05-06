@@ -17,3 +17,10 @@ run-lab1:
 	./build/lab1
 run-vis:
 	./build/vis
+
+main:
+	rm -rf build/*
+	mkdir -p build
+	gcc src/main.c -o build/main.out
+run-main:
+	./build/main.out
