@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        ".env": "env",
+        "math.h": "c",
+        "stdio.h": "c"
+    }
+}
