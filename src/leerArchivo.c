@@ -95,4 +95,13 @@ void printMatrix(char*** matrix,int nfilas,int ncols){
     }
 }
 
+char* parseArgs(int argc, char* argv[], char* toFind){
+    for(int i=0; i<argc;i++){
+        int isFlag = strcmp(toFind, argv[i]);
+        if(isFlag == 0){
+            return argv[i+1];
+        }
+    }
+    return "";
+}
 

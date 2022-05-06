@@ -21,6 +21,6 @@ run-vis:
 main:
 	rm -rf build/*
 	mkdir -p build
-	gcc src/main.c -o build/main.out
+	gcc src/lab1.c -o build/lab1.out
 run-main:
-	./build/main.out
+	./build/lab1.out

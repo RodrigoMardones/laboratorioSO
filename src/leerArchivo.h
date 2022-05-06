@@ -43,3 +43,12 @@ void setDistance(char*** matrix, int filas);
  */
 void printMatrix(char*** matrix,int nfilas,int ncols);
 
+/**
+ * @brief retorna valor de argumento entregado si existe
+ * 
+ * @param argc largo de lista de args
+ * @param argv lista de args
+ * @param toFind valor a encontrar
+ * @return char* 
+ */
+char* parseArgs(int argc, char* argv[], char* toFind);
