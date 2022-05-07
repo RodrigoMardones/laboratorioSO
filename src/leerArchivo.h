@@ -68,7 +68,7 @@ char*** fillMatrix(char* filename, char*** matrix){
 	return matrix;
 }
 
-//Establece el disco de la visibilidad
+//Establece la distancia de visibilidad al centro
 char*** setDisc(char*** matriz, int nfil){
 	for(i=0;i<nfil;i++){
 		double u = strtod(matriz[i][0], (char **)NULL);

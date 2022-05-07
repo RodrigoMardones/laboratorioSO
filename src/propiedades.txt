@@ -11,14 +11,8 @@ Potencia: 101471326.660890
 Ruido total: 189.659524 
  
 Disco 3:
-Media real: -3.034297 
-Media imaginaria: 1.856252 
-Potencia: 52037295.069840 
-Ruido total: 96.522105 
- 
-Disco 4:
-Media real: -2.757469 
-Media imaginaria: 0.859376 
-Potencia: 10566683.803354 
-Ruido total: 21.379359 
+Media real: -2.982930 
+Media imaginaria: 1.671275 
+Potencia: 62603978.873193 
+Ruido total: 117.901464 
  
