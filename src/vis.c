@@ -1,13 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "utilsVis.h"
-#include  "leerArchivo.h"
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
 
-int main(int argc, char* argv[]){
-	int filas;
-    int cols = 6;
-    char*** matrix = NULL;
-    matrix = readFile("./build/intermedio.csv", &filas, cols);
-	calculateDiscVisibility(matrix,0, filas, cols, filas,"salida.txt");
-	return 0;
+void calculateDiscVisibility(char*** matrix, int initFilas, int endFilas, int ncols, int vis, char* salida){
+	double mediaReal = 0;
+	double mediaImaginaria = 0;
+	double ruidoTotal = 0;
+	double potencia = 0;
+	for(int i = initFilas; i < endFilas; i++){
+		double realPotencia = strtod(matrix[i][2], (char**) NULL);
+		double imaginarioPotencia = strtod(matrix[i][3], (char**) NULL);
+		double expresion = pow(realPotencia,2) + sqrt(pow(imaginarioPotencia,2));
+		potencia = potencia + expresion;
+		for(int j = 0; j < ncols;j++){
+			if(j == 2){
+				double real = strtod(matrix[i][j], (char **)NULL);
+				mediaReal = mediaReal + real;
+			}
+			if(j == 3){
+				double imaginario = strtod(matrix[i][j], (char **)NULL);
+				mediaImaginaria = mediaImaginaria + imaginario;
+			}
+			if(j == 4){
+				double ruido = strtod(matrix[i][j], (char**)NULL);
+				ruidoTotal = ruidoTotal + ruido;
+			}
+		}
+	}
+	mediaReal = (mediaReal/vis);
+	mediaImaginaria = (mediaImaginaria/vis);
+
+    FILE* f = fopen(salida, "w");
+	fprintf(f,"Disco %i:\n",1);
+    fprintf(f,"Media real: %f \n", mediaReal);
+	fprintf(f,"Media imaginaria: %f \n", mediaImaginaria);
+	fprintf(f,"Potencia: %f \n", potencia);
+	fprintf(f,"Ruido total: %f \n",ruidoTotal);
+    fclose(f);
 }
+
+
+

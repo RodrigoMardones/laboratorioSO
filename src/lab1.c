@@ -1,29 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
 #include "leerArchivo.h"
-#include "crearArchivo.h"
-#include "unistd.h"
 
-int main(int argc, char* argv[]){
+void calculateDiscVisibility(char*** matrix, int initFilas, int endFilas, int ncols, int vis, char* salida);
 
-    char* input = parseArgs(argc,argv, "-i");
-    char* output = parseArgs(argc, argv, "-o");
-    char* discs = parseArgs(argc, argv, "-n");
-    char* deep = parseArgs(argc, argv, "-d");
-    char* flag = parseArgs(argc, argv, "-b");
-    printf("%s \n", input);
-    printf("%s \n", output);
-    printf("%s \n", discs);
-    printf("%s \n", deep);
-    printf("%s \n", flag);
-    
-    int filas;
-    int cols = 6;
+int main(int argc,char* argv[]){
+
     char*** matrix = NULL;
-    matrix = readFile(input, &filas, cols);
-    setDistance(matrix, filas);
-    // printMatrix(matrix, 10,6);
-    createFileFirstResult(matrix,10,cols,"./build/intermedio.csv");
-    // calculateDiscVisibility(matrix, 1000,2000,6,1000);
-    char* args[] = {"./build/vis.out", NULL};
-    execvp(args[0], args);
-    return 0;
+    char *filename, *outputfile;
+    int nfilas, ncolumnas;
+
+    filename = "./src/uvplaneco1.csv";
+    outputfile = "./src/propiedades.txt";
+    nfilas = 0;
+    ncolumnas = 6; 
+
+    nfilas = rowNumber(filename);	
+    matrix = setMatrix(matrix, nfilas, ncolumnas);
+    matrix = fillMatrix(filename, matrix);
+    matrix = setDisc(matrix, nfilas);
+    calculateDiscVisibility(matrix, 1000,2000,ncolumnas,1000,outputfile);
+	return 0;
 }
+
+

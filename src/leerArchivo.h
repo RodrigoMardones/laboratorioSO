@@ -1,54 +1,84 @@
-#include "leerArchivo.c"
+int i,j;
 
-/**
- * @brief Create a Matrix object
- * 
- * @param nfilas 
- * @param nCols 
- * @return char*** 
- */
-char*** createMatrix(int nfilas, int nCols);
+//Obtener número de filas
+int rowNumber(char* filename){
+	char buffer[255];
+	FILE* vis_csv;
+	int nfilas = 0;
 
-/**
- * @brief store data in matrix object
- * 
- * @param matrix 
- * @param filename 
- */
-void storeData(char*** matrix, char* filename);
-/**
- * @brief reads a file, initialize a matrix and store the data
- * 
- * @param filename 
- * @param nfilas 
- * @param ncols 
- * @return char***
- */
-char*** readFile(char* filename, int* nfilas, int ncols);
+    vis_csv= fopen(filename,"r");
+	if(vis_csv){	
+		while (fgets(buffer, 255, (FILE*)vis_csv) != NULL){
+			nfilas = nfilas + 1;
+		}
+		fclose(vis_csv);
+	}
+	return nfilas;
+}
+	
+//Crear Matriz	
+char*** setMatrix(char*** matrix, int nfil, int ncol){	
+	matrix = (char***) malloc(sizeof(char**)*nfil);
+	for(i=0;i<nfil;i++){	
+		matrix[i] = (char**) malloc(sizeof(char*)*ncol);
+		for(j=0;j<ncol;j++){	
+			matrix[i][j] = (char*) malloc(sizeof(255));
+		}
+	}
+	return matrix;
+}
 
-/**
- * @brief setDistance like d(u,v) = (U**2 + v**2) ** 1/2
- * 
- * @param matrix 
- * @param filas 
- */
-void setDistance(char*** matrix, int filas);
+//Leer Archivo y guardar en matriz
+char*** fillMatrix(char* filename, char*** matrix){
+	char buffer[255];
+	char numero[255];
+	FILE* vis_csv;
+	int inum,numfila,numcolumna;
+	numfila = 0;
 
-/**
- * @brief just prints the matrix
- * 
- * @param matrix 
- * @param nfilas 
- * @param ncols 
- */
-void printMatrix(char*** matrix,int nfilas,int ncols);
+	vis_csv= fopen(filename,"r");
+	if(vis_csv){	
+		while (fgets(buffer, 255, (FILE*)vis_csv) != NULL){
+			numcolumna = 0;
+			i = 0;
+			inum = 0;
+		 	while(buffer[i] != '\0'){ 
+        			if(buffer[i] != ',' && buffer[i] != '\n'){		
+        				numero[inum] = buffer[i];
+        				inum++;        			
+  				}else if(buffer[i] == ','){
+  					numero[inum] = '\0';
+  					strcpy(matrix[numfila][numcolumna],numero);
+  					numcolumna++;
+  					inum = 0;
+  				}else if(buffer[i] == '\n'){
+  					numero[inum] = '\0';
+  					strcpy(matrix[numfila][numcolumna],numero);
+  					inum = 0;
+				}else{
+				
+					break;
+				}				
+  				i++;
+			}	
+			numfila++;			
+		}			
+	}
+	fclose(vis_csv);
+	return matrix;
+}
 
-/**
- * @brief retorna valor de argumento entregado si existe
- * 
- * @param argc largo de lista de args
- * @param argv lista de args
- * @param toFind valor a encontrar
- * @return char* 
- */
-char* parseArgs(int argc, char* argv[], char* toFind);
+//Establece el disco de la visibilidad
+char*** setDisc(char*** matriz, int nfil){
+	for(i=0;i<nfil;i++){
+		double u = strtod(matriz[i][0], (char **)NULL);
+		double v = strtod(matriz[i][1], (char **)NULL);
+		double radio = (u*u) + (v*v);
+		int disco = sqrt(radio);
+		char* discostr = (char*) malloc(sizeof(255)); 
+		sprintf(discostr, "%d", disco);
+		strcpy(matriz[i][5],discostr);		
+	}
+	return matriz;
+}
+
