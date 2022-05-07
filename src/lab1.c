@@ -23,7 +23,10 @@ int main(int argc, char* argv[]){
     // printMatrix(matrix, 10,6);
     createFileFirstResult(matrix,10,cols,"./build/intermedio.csv");
     // calculateDiscVisibility(matrix, 1000,2000,6,1000);
-    char* args[] = {"./build/vis.out", NULL};
+    // programa de salida, filas, cols, vis,
+    int initFilas = 0;
+    int endFilas = filas;
+    char* args[] = {"./build/vis.out", initFilas, endFilas, cols, deep, output,NULL};
     execvp(args[0], args);
     return 0;
 }
