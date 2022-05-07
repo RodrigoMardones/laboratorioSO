@@ -15,4 +15,4 @@ char* trim(char *s);
  * @param nfilas 
  * @param ncols 
  */
-void createFileFirstResult(char*** matrix,int nfilas, int ncols);
+void createFileFirstResult(char*** matrix,int nfilas, int ncols, char* path);

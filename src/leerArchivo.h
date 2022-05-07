@@ -27,7 +27,7 @@ void storeData(char*** matrix, char* filename);
 char*** readFile(char* filename, int* nfilas, int ncols);
 
 /**
- * @brief setDistance like (d,u) = (U**2 + v**2) ** 1/2
+ * @brief setDistance like d(u,v) = (U**2 + v**2) ** 1/2
  * 
  * @param matrix 
  * @param filas 

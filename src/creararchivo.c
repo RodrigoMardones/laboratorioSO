@@ -13,8 +13,8 @@ char *trim(char *s) {
     return s;
 }
 
-void createFileFirstResult(char*** matrix,int nfilas, int ncols){
-	FILE* salida = fopen("./src/propiedades.csv","w");
+void createFileFirstResult(char*** matrix,int nfilas, int ncols, char* path){
+	FILE* salida = fopen(path,"w");
 	for(int i=0;i<nfilas;i++){
 		char buff[512] = "";
 		fprintf(salida, "%s,%s,%s,%s,%s,%s\n",

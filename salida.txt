@@ -1,0 +1,4 @@
+media real: 6.406986 
+media imaginaria: -16.836976 
+potencia: 27544.656222 
+ruido total: 0.050682 

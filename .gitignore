@@ -3,3 +3,5 @@ lab1
 vis
 build/*
 build
+.csv
+.txt
