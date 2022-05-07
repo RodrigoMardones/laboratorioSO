@@ -4,12 +4,12 @@
 #include <ctype.h>
 #include <math.h>
 
-void calculateDiscVisibility(char*** matrix, int nfilas, int ncols, int vis){
+void calculateDiscVisibility(char*** matrix, int initFilas, int endFilas, int ncols, int vis){
 	double mediaReal = 0;
 	double mediaImaginaria = 0;
 	double ruidoTotal = 0;
 	double potencia = 0;
-	for(int i = 0; i < nfilas; i++){
+	for(int i = initFilas; i < endFilas; i++){
 		double realPotencia = strtod(matrix[i][2], (char**) NULL);
 		double imaginarioPotencia = strtod(matrix[i][3], (char**) NULL);
 		double expresion = pow(realPotencia,2) + sqrt(pow(imaginarioPotencia,2));
@@ -36,4 +36,3 @@ void calculateDiscVisibility(char*** matrix, int nfilas, int ncols, int vis){
 	printf("potencia: %f \n", potencia);
 	printf("ruido total: %f \n",ruidoTotal);	
 }
-

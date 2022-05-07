@@ -1,5 +1,6 @@
 #include "leerArchivo.h"
 #include "vis.c"
+#include "creararchivo.c"
 
 int main(int argc, char* argv[]){
 
@@ -20,6 +21,7 @@ int main(int argc, char* argv[]){
     matrix = readFile(input, &filas, cols);
     setDistance(matrix, filas);
     // printMatrix(matrix, 10,6);
-    calculateDiscVisibility(matrix, 10,6,10);
+    crearArchivoTest(matrix,10,cols);
+    calculateDiscVisibility(matrix, 1000,2000,6,1000);
     return 0; 
 }
