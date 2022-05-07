@@ -4,6 +4,8 @@
         "math.h": "c",
         "stdio.h": "c",
         "string.h": "c",
-        "leerarchivo.h": "c"
+        "leerarchivo.h": "c",
+        "stdlib.h": "c",
+        "ctype.h": "c"
     }
 }
