@@ -1,5 +1,6 @@
 #include "leerArchivo.h"
 #include "crearArchivo.h"
+#include "unistd.h"
 
 int main(int argc, char* argv[]){
 
@@ -22,5 +23,7 @@ int main(int argc, char* argv[]){
     // printMatrix(matrix, 10,6);
     createFileFirstResult(matrix,10,cols,"./build/intermedio.csv");
     // calculateDiscVisibility(matrix, 1000,2000,6,1000);
-    return 0; 
+    char* args[] = {"./build/vis.out", NULL};
+    execvp(args[0], args);
+    return 0;
 }

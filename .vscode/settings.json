@@ -7,6 +7,7 @@
         "leerarchivo.h": "c",
         "stdlib.h": "c",
         "ctype.h": "c",
-        "creararchivo.h": "c"
+        "creararchivo.h": "c",
+        "unistd.h": "c"
     }
 }
