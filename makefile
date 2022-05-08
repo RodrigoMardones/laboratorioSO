@@ -11,3 +11,6 @@ crear:
 
 borrar:
 	rm -rf $(DIRO)/*
+
+test:
+	./build/lab1 -i uvplaneco1.csv -o propiedades.txt -d 100 -n 3

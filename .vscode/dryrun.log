@@ -1,0 +1,7 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/rignmardones/privado/codeGames/universidad/laboratorioSO'
+rm -rf ./build/*
+mkdir -p ./build
+gcc -g -msse3  ./src/lab1.c -lm ./src/vis.c -lm -o ./build/lab1
+make: Leaving directory `/Users/rignmardones/privado/codeGames/universidad/laboratorioSO'
+ 
