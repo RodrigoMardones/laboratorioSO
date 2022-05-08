@@ -1,54 +1,36 @@
 #include "leerArchivo.c"
+/**
+ * @brief returns number of row in matrix
+ * 
+ * @param filename 
+ * @return int 
+ */
+int rowNumber(char* filename);
 
 /**
- * @brief Create a Matrix object
+ * @brief Set the Matrix object
  * 
- * @param nfilas 
- * @param nCols 
+ * @param matrix 
+ * @param nfil 
+ * @param ncol 
  * @return char*** 
  */
-char*** createMatrix(int nfilas, int nCols);
+char*** setMatrix(char*** matrix, int nfil, int ncol);
 
 /**
- * @brief store data in matrix object
- * 
- * @param matrix 
- * @param filename 
- */
-void storeData(char*** matrix, char* filename);
-/**
- * @brief reads a file, initialize a matrix and store the data
+ * @brief fill the matrix with file info
  * 
  * @param filename 
- * @param nfilas 
- * @param ncols 
- * @return char***
- */
-char*** readFile(char* filename, int* nfilas, int ncols);
-
-/**
- * @brief setDistance like d(u,v) = (U**2 + v**2) ** 1/2
- * 
  * @param matrix 
- * @param filas 
+ * @return char*** 
  */
-void setDistance(char*** matrix, int filas);
+char*** fillMatrix(char* filename, char*** matrix);
 
 /**
- * @brief just prints the matrix
+ * @brief Set the Disc object
  * 
- * @param matrix 
- * @param nfilas 
- * @param ncols 
+ * @param matriz 
+ * @param nfil 
+ * @return char*** 
  */
-void printMatrix(char*** matrix,int nfilas,int ncols);
-
-/**
- * @brief retorna valor de argumento entregado si existe
- * 
- * @param argc largo de lista de args
- * @param argv lista de args
- * @param toFind valor a encontrar
- * @return char* 
- */
-char* parseArgs(int argc, char* argv[], char* toFind);
+char*** setDisc(char*** matriz, int nfil);

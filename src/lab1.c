@@ -1,32 +1,61 @@
 #include "leerArchivo.h"
-#include "crearArchivo.h"
+#include "vis.h"
 #include "unistd.h"
 
-int main(int argc, char* argv[]){
+int main(int argc,char* argv[]){
 
-    char* input = parseArgs(argc,argv, "-i");
-    char* output = parseArgs(argc, argv, "-o");
-    char* discs = parseArgs(argc, argv, "-n");
-    char* deep = parseArgs(argc, argv, "-d");
-    char* flag = parseArgs(argc, argv, "-b");
-    printf("%s \n", input);
-    printf("%s \n", output);
-    printf("%s \n", discs);
-    printf("%s \n", deep);
-    printf("%s \n", flag);
-    
-    int filas;
-    int cols = 6;
+    //Variables locales
     char*** matrix = NULL;
-    matrix = readFile(input, &filas, cols);
-    setDistance(matrix, filas);
-    // printMatrix(matrix, 10,6);
-    createFileFirstResult(matrix,10,cols,"./build/intermedio.csv");
-    // calculateDiscVisibility(matrix, 1000,2000,6,1000);
-    // programa de salida, filas, cols, vis,
-    int initFilas = 0;
-    int endFilas = filas;
-    char* args[] = {"./build/vis.out", initFilas, endFilas, cols, deep, output,NULL};
-    execvp(args[0], args);
-    return 0;
+    int** rangos = NULL;
+    char *inputfile, *outputfile,*inputf, *outputf, *deep, *ndisc;
+    int nfilas, ncolumnas, ancho, discos;
+
+    //Obtener argumentos
+    int opt;
+    //"i, o, d, n" son las variables en los argumentos, y : significan que tienen argumento adicional
+    while((opt = getopt(argc, argv,"i:o:d:n:")) != -1) 
+    { 
+        switch(opt) 
+        { 
+            case 'i': 
+                inputf = optarg;
+             case 'o':
+                outputf = optarg; 
+                break; 
+             case 'd': 
+                deep = optarg; 
+                break;
+             case 'n': 
+                ndisc = optarg; 
+                break;
+                
+        } 
+    }
+
+    //Concatenar ruta dr archivos en /src
+    char *src= "./src/";
+    char *dest = "./";
+    inputfile = (char*) malloc(sizeof(char*)*255);
+    outputfile = (char*) malloc(sizeof(char*)*255);
+    strcat(inputfile,src);
+    strcat(inputfile,inputf);
+    strcat(outputfile,dest);
+    strcat(outputfile,outputf);
+
+    //Inicializar variables
+    nfilas = 0;
+    ncolumnas = 6; 
+    ancho = strtol(deep, NULL,0);
+    discos = strtol(ndisc, NULL,0);
+
+    nfilas = rowNumber(inputfile);	
+    matrix = setMatrix(matrix, nfilas, ncolumnas);
+    matrix = fillMatrix(inputfile, matrix);
+    matrix = setDisc(matrix, nfilas);
+    rangos = setRange(ancho,discos);
+    unlink(outputfile);
+    writeDiscs(matrix, rangos, nfilas,ncolumnas, discos, outputfile);
+	return 0;
 }
+
+
