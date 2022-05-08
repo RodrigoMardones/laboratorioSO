@@ -34,11 +34,12 @@ int main(int argc,char* argv[]){
 
     //Concatenar ruta dr archivos en /src
     char *src= "./src/";
+    char *dest = "./";
     inputfile = (char*) malloc(sizeof(char*)*255);
     outputfile = (char*) malloc(sizeof(char*)*255);
     strcat(inputfile,src);
     strcat(inputfile,inputf);
-    strcat(outputfile,src);
+    strcat(outputfile,dest);
     strcat(outputfile,outputf);
 
     //Inicializar variables
