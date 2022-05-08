@@ -8,10 +8,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Sun May  8 16:13:08 2022
+# Make data base, printed on Sun May  8 16:54:42 2022
 
 # Variables
 
+ 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
@@ -43,7 +44,7 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/f_/t7yfd0f96rdfhcyj07vlh6100000gq/T/vscode-ipc-f40216cb-064b-4db0-a1e4-d6b53338c3b7.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/f_/t7yfd0f96rdfhcyj07vlh6100000gq/T/vscode-ipc-d783c4d6-beef-4c3d-863f-7e94edd8ed77.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -161,7 +162,7 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 37663
+VSCODE_PID = 40983
 # variable set hash-table stats:
 # Load=75/1024=7%, Rehash=0, Collisions=1/102=1%
 
@@ -171,9 +172,9 @@ VSCODE_PID = 37663
 
 # Directories
 
-# . (device 16777221, inode 12781080): 7 files, no impossibilities.
+# . (device 16777221, inode 12781080): 8 files, no impossibilities.
 
-# 7 files, no impossibilities in 1 directories.
+# 8 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -201,13 +202,13 @@ test:
 #  Modification time never checked.
 #  File has not been updated.
 #  commands to execute (from `makefile', line 16):
-	./build/lab1 -i uvplaneco1.csv -o propiedades.txt -d 100 -n 3
+	./build/lab1.out -i uvplaneco1.csv -o propiedades.txt -d 100 -n 3
 	
 
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-08 16:10:00
+#  Last modified 2022-05-08 16:54:41
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -236,6 +237,7 @@ borrar:
 # automatic
 # ? := 
 # variable set hash-table stats:
+ 
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  commands to execute (from `makefile', line 13):
 	rm -rf $(DIRO)/*
@@ -253,7 +255,7 @@ crear:
 #  File has not been updated.
 #  commands to execute (from `makefile', line 9):
 	mkdir -p $(DIRO)
-	$(CC) $(CFLAGS) $(DIRI)/lab1.c -lm $(DIRI)/vis.c -lm -o $(DIRO)/lab1
+	$(CC) $(DIRI)/lab1.c -o $(DIRO)/lab1.out
 	
 
 # files hash-table stats:
@@ -269,6 +271,6 @@ crear:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun May  8 16:13:08 2022
+# Finished Make data base on Sun May  8 16:54:42 2022
 
  

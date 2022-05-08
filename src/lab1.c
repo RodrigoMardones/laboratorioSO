@@ -1,13 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
-#include <unistd.h> 
 #include "leerArchivo.h"
-
-int** setRange(int deep,int discs);
-void writeDiscs(char*** matrix, int** ranges, int nfilas,int ncols,  int discs, char* salida);
+#include "vis.h"
+#include "unistd.h"
 
 int main(int argc,char* argv[]){
 

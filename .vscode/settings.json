@@ -1,3 +1,7 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode"
+    "files.associations": {
+        ".env": "env",
+        "math.h": "c",
+        "leerarchivo.h": "c"
+    }
 }

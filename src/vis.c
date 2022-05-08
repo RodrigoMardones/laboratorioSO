@@ -1,10 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#include "ctype.h"
+#include "math.h"
 
-//Establecer rango de distancia de visibilidad de cada disco de acuedo al ancho
 int** setRange(int deep, int discs){
 
     int** ranges;
@@ -30,7 +29,6 @@ int** setRange(int deep, int discs){
 	return ranges;
 }
 
-//Calcular los datos de cada disco
 void calculateDiscVisibility(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis, int numdisco, char* salida){
 	double mediaReal = 0;
 	double mediaImaginaria = 0;
@@ -86,7 +84,6 @@ void calculateDiscVisibility(char*** matrix, int nfilas, int initFilas, int endF
     fclose(f);
 }
 
-//Calcular el n° de distancias de visibilidad en cada disco
 int visNumber(char*** matrix, int nfilas, int initFilas, int endFilas){	
 	int i,j,numbervis;
 	numbervis = 0;
@@ -105,7 +102,6 @@ int visNumber(char*** matrix, int nfilas, int initFilas, int endFilas){
 	return numbervis;
 }
 
-//Escribir la info correspondiente a cada disco
 void writeDiscs(char*** matrix, int** ranges, int nfilas,int ncols,  int discs, char* salida){
 	int i,j,nvis;
 	for(i=0; i<discs; i++){
