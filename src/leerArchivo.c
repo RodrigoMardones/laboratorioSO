@@ -3,6 +3,8 @@
 #include "math.h"
 #include "ctype.h"
 #include "string.h"
+#include <time.h>
+#include <stdlib.h>
 
 int i,j;
 
@@ -141,13 +143,57 @@ int visNumber(char*** matrix, int nfilas, int initFilas, int endFilas){
 	return numbervis;
 }
 
+void storeData(char*** matrix, char* filename){
+	FILE* vis_csv = fopen(filename,"r");
+	int charPerLine = 0;
+	int numcolumna = 0;
+    int numfila = 0;
+    int inum = 0;
+	// para guardar valor leido
+    char buff[255];
+	// para traspasar valor
+    char numero[255];
+    if(vis_csv){
+		while (fgets(buff, 255, (FILE*)vis_csv) != NULL){
+			charPerLine = 0;
+			numcolumna = 0;
+			inum = 0;
+
+		 	while(buff[charPerLine] != '\0'){ 
+				if(buff[charPerLine] != ',' && buff[charPerLine] != '\n'){		
+					numero[inum] = buff[charPerLine];
+					inum++;        			
+  				}else if(buff[charPerLine] == ','){
+  					numero[inum] = '\0';
+					// printf("%s en (%d,%d) ", numero,numfila, numcolumna);
+  					strcpy(matrix[numfila][numcolumna],numero);
+  					numcolumna++;
+  					inum = 0;
+  				}else if(buff[charPerLine] == '\n'){
+  					numero[inum] = '\0';
+					// printf("valor final: %s \n", numero);
+  					strcpy(matrix[numfila][numcolumna],numero);
+  					inum = 0;
+				}else{
+					break;
+				}				
+  				charPerLine++;
+			}
+			numfila++;		
+		}			
+	}
+}
+
 char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis){
 
 	double** discmatrix; 
 	int j = 0;
 	discmatrix = setMatrixDouble(discmatrix, nvis, 6);
+	srand(time(NULL));   // Initialization, should only be called once.
+	int r = rand();
 	for(int i=0; i < nfilas; i++){
 		double distancia = strtod(matrix[i][5], (char **)NULL);	
+		
 		//Rango de disco final (x hasta el final)
 		if(endFilas == 0)
 		{
@@ -175,7 +221,10 @@ char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int n
 			}
 		}
 	}
-	char* fileName = "cache.txt";
-	fillMatrix(fileName, discmatrix);
-	return fileName;
+	char filename[12] = "cache";
+	itoa(r, filename+4, 10);
+	strcat(filename, ".txt");
+	
+	storeData(filename, discmatrix);
+	return filename;
 }
