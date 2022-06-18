@@ -64,23 +64,25 @@ int main(int argc,char* argv[]){
     matrix = fillMatrix(inputfile, matrix);
     matrix = setDisc(matrix, nfilas);
     rangos = setRange(ancho,numdiscos);
+    // matriz con matrices chicas cortadas por rangos 
     unlink(outputfile);
 
     //prueba para un disco
     nvis = visNumber(matrix, nfilas, rangos[1][0], rangos[1][1]);
-    matrixbyrange = discByRange(matrix, 3, rangos[1][0], rangos[1][1], nvis);
+    char *temporalFileName = discByRange(matrix, 3, rangos[1][0], rangos[1][1], nvis);
     
     //disco 1 rangos [1][x] = rango [i][x]
 
     char* nvischar = (char*) malloc(sizeof(char*)*50);
     sprintf(nvischar, "%d", nvis);
-    char* args[3] = {"./build/vis",nvischar,NULL}; 
+    char* args[3] = {"./build/vis",nvischar, temporalFileName,NULL}; 
 
     //Pipes
     int pipein[2];
     int pipeout[2];
     pipe(pipein);
     pipe(pipeout);
+
 
     //Fork
     pid_t pid = fork();

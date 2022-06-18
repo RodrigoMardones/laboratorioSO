@@ -141,7 +141,7 @@ int visNumber(char*** matrix, int nfilas, int initFilas, int endFilas){
 	return numbervis;
 }
 
-double** discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis){
+char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis){
 
 	double** discmatrix; 
 	int j = 0;
@@ -175,6 +175,7 @@ double** discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, in
 			}
 		}
 	}
-
-	return discmatrix;
+	char* fileName = "cache.txt";
+	fillMatrix(fileName, discmatrix);
+	return fileName;
 }
