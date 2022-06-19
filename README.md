@@ -14,3 +14,5 @@ el comando que ejecuta es el siguiente:
 ./build/lab1 -i uvplaneco1.csv -o propiedades.txt -d 100 -n 3 -b
 
 este comando se puede copiar y modificar a gusto
+
+4. El archivo que crea el proceso quedará en el fichero principal
