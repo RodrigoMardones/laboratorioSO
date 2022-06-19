@@ -16,15 +16,15 @@ int main(int argc,char* argv[]){
 
     //Variables locales
     char*** matrix = NULL;
-    double** matrixbyrange = NULL;
     int** rangos = NULL;
     char *inputfile, *outputfile,*inputf, *outputf, *deep, *ndisc;
-    int nfilas, ncolumnas, ancho, numdiscos,nvis;
+    int nfilas, ncolumnas, ancho, numdiscos,nvis,cantvisi;
+    cantvisi = 0;
 
     //Obtener argumentos
     int opt;
     //"i, o, d, n" son las variables en los argumentos, y : significan que tienen argumento adicional
-    while((opt = getopt(argc, argv,"i:o:d:n:")) != -1) 
+    while((opt = getopt(argc, argv,"i:o:d:n:b")) != -1) 
     { 
         switch(opt) 
         { 
@@ -39,7 +39,9 @@ int main(int argc,char* argv[]){
              case 'n': 
                 ndisc = optarg; 
                 break;
-                
+             case 'b': 
+                cantvisi = 1; 
+                break;                
         } 
     }
 
@@ -61,67 +63,59 @@ int main(int argc,char* argv[]){
 
     nfilas = rowNumber(inputfile);	
     matrix = setMatrix(matrix, nfilas, ncolumnas);
-    matrix = fillMatrix(inputfile, matrix);
+    matrix = fillMatrix(inputfile, matrix,nfilas);
     matrix = setDisc(matrix, nfilas);
     rangos = setRange(ancho,numdiscos);
-    // matriz con matrices chicas cortadas por rangos 
     unlink(outputfile);
 
-    //prueba para un disco
-    nvis = visNumber(matrix, nfilas, rangos[1][0], rangos[1][1]);
-    char *temporalFileName = discByRange(matrix, 3, rangos[1][0], rangos[1][1], nvis);
-    
     //disco 1 rangos [1][x] = rango [i][x]
 
-    char* nvischar = (char*) malloc(sizeof(char*)*50);
-    sprintf(nvischar, "%d", nvis);
-    char* args[3] = {"./build/vis",nvischar, temporalFileName,NULL}; 
+   for (int i=0; i < numdiscos; i++)  {
+        int numerodisco = i+1;
+        nvis = visNumber(matrix, nfilas, rangos[i][0], rangos[i][1]);
+        char *tempFileName  = discByRange(matrix, nfilas, rangos[i][0], rangos[i][1],nvis, numerodisco);
 
-    //Pipes
-    int pipein[2];
-    int pipeout[2];
-    pipe(pipein);
-    pipe(pipeout);
+        char* nvischar = (char*) malloc(sizeof(char*)*50);
+        sprintf(nvischar, "%d", nvis);
+        char* args[3] = {"./build/vis",nvischar,NULL}; 
 
+        //Pipes
+        int pipein[2];
+        int pipeout[2];
+        pipe(pipein);
+        pipe(pipeout);
 
-    //Fork
-    pid_t pid = fork();
-    if (pid == 0) { //hijo
-        //esto funciona
-        close(pipein[WRITE]);  
-        dup2(pipein[READ],STDIN_FILENO);  
-        close(pipeout[READ]); 
-        dup2(pipeout[WRITE],STDOUT_FILENO);     
-        execv("./build/vis",args);
-        perror("exec ls failed");
-        exit(0);
+        //Fork
+        pid_t pid = fork();
+        if (pid == 0) { //hijo
+            close(pipein[WRITE]);  
+            dup2(pipein[READ],STDIN_FILENO);  
+            close(pipeout[READ]); 
+            dup2(pipeout[WRITE],STDOUT_FILENO);     
+            execv("./build/vis",args);
+            perror("exec ls failed");
+            exit(0);
+        }
+        else{ //padre 
+            char precalculo[200];
+            char* calculo = (char*) malloc(sizeof(char*)*200);
+            close(pipein[READ]);  
+            close(pipeout[WRITE]);
+            //enviar datos
+            char filenamedisc[50];
+            strcpy(filenamedisc, tempFileName);
+            write(pipein[WRITE],filenamedisc,50);  
+            //recibir datos
+            read(pipeout[READ],precalculo,200);  
+            strcpy(calculo, precalculo);
+            writeFile(calculo,outputfile,numerodisco);
+            unlink(tempFileName);
+            if(cantvisi == 1){
+                printf("Soy el hijo de pid %d, procesé %d visibilidades\n",pid,nvis);
+            }
+            wait(NULL);
+        }
     }
-    else{ //padre 
-        char nvisc[100];
-        int status;
-        close(pipein[READ]);  
-        close(pipeout[WRITE]);
-        //enviar datoa
-        write(pipein[WRITE], "hola",4);  
-        //recibir datos
-        read(pipeout[READ], nvisc,sizeof(nvisc));  
-        printf("%s\n",nvisc);
-        waitpid(pid, &status,0);
-    }
-
-    
-    //Escribir archivo
-    //FILE* f = fopen(outputfile, "a");
-    //fprintf(f,"Disco %i:\n",(i+1));
-    //fprintf(f,"Media real: %f \n", mediaReal);
-	//fprintf(f,"Media imaginaria: %f \n", mediaImaginaria);
-	//fprintf(f,"Potencia: %f \n", potencia);
-    //fprintf(f,"Ruido total: %f \n \n",ruidoTotal);
-    //fclose(f);
-
-
 
 	return 0;
 }
-
-

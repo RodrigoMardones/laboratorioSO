@@ -18,24 +18,14 @@ int rowNumber(char* filename);
 char*** setMatrix(char*** matrix, int nfil, int ncol);
 
 /**
- * @brief Set the Matrix object
- * 
- * @param matrix 
- * @param nfil 
- * @param ncol 
- * @return double** 
- */
-double** setMatrixDouble(double** matrix, int nfil, int ncol);
-
-
-/**
  * @brief fill the matrix with file info
  * 
  * @param filename 
  * @param matrix 
+ * @param nfilas
  * @return char*** 
  */
-char*** fillMatrix(char* filename, char*** matrix);
+char*** fillMatrix(char* filename, char*** matrix,int nfilas);
 
 /**
  * @brief Set the Disc object
@@ -66,27 +56,38 @@ int** setRange(int deep, int discs);
  */
 int visNumber(char*** matrix, int nfilas, int initFilas, int endFilas);
 
-/**
- * @brief write the info calculating disc visibility on all discs
- * 
- * @param matrix 
- * @param ranges 
- * @param nfilas 
- * @param ncols 
- * @param discs 
- * @param salida 
- */
-void writeDiscs(char*** matrix, int** ranges, int nfilas,int ncols,  int discs, char* salida);
 
 /**
- * @brief convert discs info to matrix
+ * @brief save matrix info to file
+ * 
+ * @param matrix 
+ * @param nfilas
+ * @param filename 
+ * @return void
+ */
+void storeData(char*** matrix,int nfilas, char* filename);
+
+
+/**
+ * @brief create temporal file with disc info
  * 
  * @param matrix 
  * @param nfilas 
  * @param initFilas 
  * @param endFilas 
  * @param nvis
- * @return double**
+ * @param numdisco
+ * @return char*
  */
-double** discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis);
+char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis,int numdisco);
 
+
+/**
+ * @brief save disc visbility to file
+ * 
+ * @param calculo 
+ * @param outputfile 
+ * @param numdisc
+ * @return void
+ */
+void writeFile(char* calculo,char* outputfile,int numdisc);

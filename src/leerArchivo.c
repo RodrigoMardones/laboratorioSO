@@ -3,8 +3,6 @@
 #include "math.h"
 #include "ctype.h"
 #include "string.h"
-#include <time.h>
-#include <stdlib.h>
 
 int i,j;
 
@@ -34,21 +32,7 @@ char*** setMatrix(char*** matrix, int nfil, int ncol){
 	return matrix;
 }
 
-double** setMatrixDouble(double** matrix, int nfil, int ncol){	
-	matrix = (double**) malloc(sizeof(double*)*nfil);
-	for(i=0;i<nfil;i++){	
-		matrix[i] = (double*) malloc(sizeof(double)*ncol);
-	}
-
-	for(i=0;i<nfil;i++){
-			for(j=0;j<ncol;j++){	
-			matrix[i][j] =0.0;
-		}
-	}
-	return matrix;
-}
-
-char*** fillMatrix(char* filename, char*** matrix){
+char*** fillMatrix(char* filename, char*** matrix,int nfilas){
 	char buffer[255];
 	char numero[255];
 	FILE* vis_csv;
@@ -62,7 +46,7 @@ char*** fillMatrix(char* filename, char*** matrix){
 			i = 0;
 			inum = 0;
 		 	while(buffer[i] != '\0'){ 
-        			if(buffer[i] != ',' && buffer[i] != '\n'){		
+        		if(buffer[i] != ',' && buffer[i] != '\n' && buffer[i] != '\0'){		
         				numero[inum] = buffer[i];
         				inum++;        			
   				}else if(buffer[i] == ','){
@@ -81,7 +65,9 @@ char*** fillMatrix(char* filename, char*** matrix){
   				i++;
 			}	
 			numfila++;			
-		}			
+		}
+		numero[inum] = '\0';
+  		strcpy(matrix[numfila-1][numcolumna],numero);		
 	}
 	fclose(vis_csv);
 	return matrix;
@@ -143,67 +129,42 @@ int visNumber(char*** matrix, int nfilas, int initFilas, int endFilas){
 	return numbervis;
 }
 
-void storeData(char*** matrix, char* filename){
-	FILE* vis_csv = fopen(filename,"r");
-	int charPerLine = 0;
-	int numcolumna = 0;
-    int numfila = 0;
-    int inum = 0;
-	// para guardar valor leido
-    char buff[255];
-	// para traspasar valor
-    char numero[255];
-    if(vis_csv){
-		while (fgets(buff, 255, (FILE*)vis_csv) != NULL){
-			charPerLine = 0;
-			numcolumna = 0;
-			inum = 0;
+void storeData(char*** matrix,int nfilas, char* filename){
+	FILE* tempvis = fopen(filename,"w");
 
-		 	while(buff[charPerLine] != '\0'){ 
-				if(buff[charPerLine] != ',' && buff[charPerLine] != '\n'){		
-					numero[inum] = buff[charPerLine];
-					inum++;        			
-  				}else if(buff[charPerLine] == ','){
-  					numero[inum] = '\0';
-					// printf("%s en (%d,%d) ", numero,numfila, numcolumna);
-  					strcpy(matrix[numfila][numcolumna],numero);
-  					numcolumna++;
-  					inum = 0;
-  				}else if(buff[charPerLine] == '\n'){
-  					numero[inum] = '\0';
-					// printf("valor final: %s \n", numero);
-  					strcpy(matrix[numfila][numcolumna],numero);
-  					inum = 0;
-				}else{
-					break;
-				}				
-  				charPerLine++;
-			}
-			numfila++;		
-		}			
+	for(int i=0; i < nfilas; i++){
+		fprintf(tempvis,"%s,",matrix[i][0]);
+		fprintf(tempvis,"%s,",matrix[i][1]);
+		fprintf(tempvis,"%s,",matrix[i][2]);
+		fprintf(tempvis,"%s,",matrix[i][3]);
+		fprintf(tempvis,"%s,",matrix[i][4]);
+		fprintf(tempvis,"%s",matrix[i][5]);
+		if(i<nfilas-1){
+			fprintf(tempvis,"%s","\n");
+		}		
 	}
+
+    fclose(tempvis);
+
 }
 
-char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis){
+char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int nvis,int numdisco){
 
-	double** discmatrix; 
+	char*** discmatrix; 
 	int j = 0;
-	discmatrix = setMatrixDouble(discmatrix, nvis, 6);
-	srand(time(NULL));   // Initialization, should only be called once.
-	int r = rand();
+	discmatrix = setMatrix(discmatrix, nvis, 6);
 	for(int i=0; i < nfilas; i++){
 		double distancia = strtod(matrix[i][5], (char **)NULL);	
-		
 		//Rango de disco final (x hasta el final)
 		if(endFilas == 0)
 		{
 			if(distancia >= initFilas){
-				discmatrix[j][0] = strtod(matrix[i][0], (char **)NULL);
-				discmatrix[j][1] = strtod(matrix[i][1], (char **)NULL);
-				discmatrix[j][2] = strtod(matrix[i][2], (char **)NULL);
-				discmatrix[j][3] = strtod(matrix[i][3], (char **)NULL);
-				discmatrix[j][4] = strtod(matrix[i][4], (char **)NULL);
-				discmatrix[j][5] = strtod(matrix[i][5], (char **)NULL);
+				strcpy(discmatrix[j][0],matrix[i][0]);
+				strcpy(discmatrix[j][1],matrix[i][1]);
+				strcpy(discmatrix[j][2],matrix[i][2]);
+				strcpy(discmatrix[j][3],matrix[i][3]);
+				strcpy(discmatrix[j][4],matrix[i][4]);
+				strcpy(discmatrix[j][5],matrix[i][5]);
 				j++;
 			}
 		}
@@ -211,20 +172,93 @@ char* discByRange(char*** matrix, int nfilas, int initFilas, int endFilas, int n
 		else
 		{
 			if(distancia >= initFilas && distancia <= endFilas){
-				discmatrix[j][0] = strtod(matrix[i][0], (char **)NULL);
-				discmatrix[j][1] = strtod(matrix[i][1], (char **)NULL);
-				discmatrix[j][2] = strtod(matrix[i][2], (char **)NULL);
-				discmatrix[j][3] = strtod(matrix[i][3], (char **)NULL);
-				discmatrix[j][4] = strtod(matrix[i][4], (char **)NULL);
-				discmatrix[j][5] = strtod(matrix[i][5], (char **)NULL);
+				strcpy(discmatrix[j][0],matrix[i][0]);
+				strcpy(discmatrix[j][1],matrix[i][1]);
+				strcpy(discmatrix[j][2],matrix[i][2]);
+				strcpy(discmatrix[j][3],matrix[i][3]);
+				strcpy(discmatrix[j][4],matrix[i][4]);
+				strcpy(discmatrix[j][5],matrix[i][5]);
 				j++;
 			}
 		}
 	}
-	char filename[12] = "cache";
-	itoa(r, filename+4, 10);
+	char* filename = (char*) malloc(sizeof(char*)*30);
+	char* charnumdisco = (char*) malloc(sizeof(char*)*1);
+	sprintf(charnumdisco, "%d", numdisco);
+	strcat(filename, "./tempdisco");
+	strcat(filename, charnumdisco);
 	strcat(filename, ".txt");
-	
-	storeData(filename, discmatrix);
+	unlink(filename);
+	storeData(discmatrix,nvis,filename);
 	return filename;
 }
+
+
+
+void writeFile(char* calculo,char* outputfile,int numdisc){
+	char mediaReal[50];
+	char mediaImaginaria[50];
+	char potencia[50];
+	char ruidoTotal[50];
+
+	int inum,numfila,numcolumna;
+	numfila = 0;
+
+	numcolumna = 1;
+	i = 0;
+	inum = 0;
+	while(calculo[i] != '\0'){ 
+        if(calculo[i] != ','){		
+			switch(numcolumna) 
+        	{ 
+            	case 1: 
+                	mediaReal[inum] = calculo[i];				
+					break;
+				case 2: 
+                	mediaImaginaria[inum] = calculo[i];
+					break;
+				case 3: 
+                	potencia[inum] = calculo[i];
+					break;
+				case 4: 
+                	ruidoTotal[inum] = calculo[i];
+					break;
+				default:
+					break;	    
+        	} 
+        	inum++;        			
+  		}else if(calculo[i] == ','){
+			switch(numcolumna) 
+        	{ 
+            	case 1: 
+                	mediaReal[inum] = '\0';				
+					break;
+				case 2: 
+                	mediaImaginaria[inum] = '\0';
+					break;
+				case 3: 
+                	potencia[inum] = '\0';
+					break;
+				default:
+					break;	    
+        	} 
+  			numcolumna++;
+  			inum = 0;
+		}else{
+			break;
+		}		
+  		i++;	
+	}	
+	ruidoTotal[inum] = '\0';			
+
+	//Escribir archivo
+    FILE* destfile = fopen(outputfile, "a");
+    fprintf(destfile,"Disco %i:\n",(numdisc));
+    fprintf(destfile,"Media real: %s \n", mediaReal);
+	fprintf(destfile,"Media imaginaria: %s \n", mediaImaginaria);
+	fprintf(destfile,"Potencia: %s \n", potencia);
+    fprintf(destfile,"Ruido total: %s \n",ruidoTotal);
+    fclose(destfile);
+
+}
+

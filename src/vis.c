@@ -12,14 +12,24 @@
 
 int main(int argc,char* argv[]){
 
-	char hola[4];
-	//recibir dato de pipein
-	read(STDIN_FILENO, hola,sizeof(hola));
-
+	char filename[50];
 	int nfilas = strtod(argv[1], (char **)NULL);
-	//double* calculo = calculateDiscVisibility(matrix,nfilas);	
+	char*** matrix = NULL;
+
+	//recibir dato de pipein
+	read(STDIN_FILENO, filename,50);
+
+	//calcular visibilidad
+	matrix = setMatrix(matrix, nfilas, 6);
+	matrix = fillMatrix(filename, matrix,nfilas);
+	char* precalculo = (char*) malloc(sizeof(char*)*200);
+	precalculo = calculateDiscVisibility(matrix,nfilas);	
+	char calculo[200];
+	strcpy(calculo, precalculo);
 	//enviar dato a pipeout
-	write(STDOUT_FILENO,hola,sizeof(hola));
+	write(STDOUT_FILENO,calculo,200);
+
+
 
 	return 0;
 }
